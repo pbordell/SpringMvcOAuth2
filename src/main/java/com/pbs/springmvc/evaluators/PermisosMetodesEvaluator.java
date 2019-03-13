@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
-import com.pbs.springmvc.service.UserService;
+import com.pbs.springmvc.service.PersonService;
 
 public class PermisosMetodesEvaluator implements PermissionEvaluator {
 	
     @Autowired
-    private UserService userService;
+    private PersonService personService;
  
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permissionText) {
     	boolean hasPermision = false;
     	
 		try {
-			userService.findByName(permissionText.toString());
+			personService.findByName(permissionText.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

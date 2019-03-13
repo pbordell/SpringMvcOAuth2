@@ -1,4 +1,4 @@
-package com.pbs.springmvc.configuration;
+package com.pbs.springmvc.config;
 
 import java.io.IOException;
 

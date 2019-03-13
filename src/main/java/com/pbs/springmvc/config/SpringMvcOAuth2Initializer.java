@@ -1,14 +1,14 @@
-package com.pbs.springmvc.configuration;
+package com.pbs.springmvc.config;
 
 import javax.servlet.Filter;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SpringMvcOAuth2Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { HelloWorldConfiguration.class };
+        return new Class[] { SpringMvcOAuth2Config.class };
     }
   
     @Override

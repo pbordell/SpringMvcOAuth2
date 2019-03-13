@@ -1,26 +1,36 @@
 package com.pbs.springmvc.model;
 
-public class User {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private long id;
-	
+@Entity
+@Table(name = "Person")
+public class Person {
+
+	@Id
+	private Long id;
+
+	@Column(name = "name")
 	private String name;
-	
-	private int age;
-	
+
+	@Column(name = "age")
+	private Long age;
+
+	@Column(name = "salary")
 	private double salary;
 
-	public User(){
-		id=0;
+	public Person() {
 	}
-	
-	public User(long id, String name, int age, double salary){
+
+	public Person(Long id, String name, Long age, double salary) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.salary = salary;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -37,11 +47,11 @@ public class User {
 		this.name = name;
 	}
 
-	public int getAge() {
+	public Long getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Long age) {
 		this.age = age;
 	}
 
@@ -69,17 +79,17 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+
+		Person other = (Person) obj;
 		if (id != other.id)
 			return false;
+
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", age=" + age
-				+ ", salary=" + salary + "]";
+		return "User [id=" + id + ", name=" + name + ", age=" + age + ", salary=" + salary + "]";
 	}
-
 
 }
