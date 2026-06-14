@@ -19,7 +19,7 @@ import com.pbs.springmvc.model.Person;
 
 public class SpringRestClient {
 
-	public static final String REST_SERVICE_URI = "http://localhost:8080/SpringSecurityOAuth2Example";
+	public static final String REST_SERVICE_URI = "http://localhost:8080/SpringSecurityOAuth2";
 
 	public static final String AUTH_SERVER_URI = "http://localhost:8080/SpringSecurityOAuth2Example/oauth/token";
 
@@ -87,7 +87,7 @@ public class SpringRestClient {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-		ResponseEntity<List> response = restTemplate.exchange(REST_SERVICE_URI + "/user/" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET, request, List.class);
+		ResponseEntity<List> response = restTemplate.exchange(REST_SERVICE_URI + "/person/" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET, request, List.class);
 		List<LinkedHashMap<String, Object>> usersMap = (List<LinkedHashMap<String, Object>>) response.getBody();
 
 		if (usersMap != null) {
@@ -109,7 +109,7 @@ public class SpringRestClient {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-		ResponseEntity<Person> response = restTemplate.exchange(REST_SERVICE_URI + "/user/1" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET, request, Person.class);
+		ResponseEntity<Person> response = restTemplate.exchange(REST_SERVICE_URI + "/person/1" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.GET, request, Person.class);
 		Person user = response.getBody();
 		
 		System.out.println(user);
@@ -126,7 +126,7 @@ public class SpringRestClient {
 		
 		Person person = new Person(Long.valueOf(0), "Sarah", Long.valueOf(51), Long.valueOf(134));
 		HttpEntity<Object> request = new HttpEntity<Object>(person, getHeaders());
-		URI uri = restTemplate.postForLocation(REST_SERVICE_URI + "/user/" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), request, Person.class);
+		URI uri = restTemplate.postForLocation(REST_SERVICE_URI + "/person/" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), request, Person.class);
 		
 		System.out.println("Location : " + uri.toASCIIString());
 	}
@@ -142,7 +142,7 @@ public class SpringRestClient {
 		
 		Person person = new Person(Long.valueOf(1), "D", Long.valueOf(33), Long.valueOf(70000));
 		HttpEntity<Object> request = new HttpEntity<Object>(person, getHeaders());
-		ResponseEntity<Person> response = restTemplate.exchange(REST_SERVICE_URI + "/user/1" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.PUT, request, Person.class);
+		ResponseEntity<Person> response = restTemplate.exchange(REST_SERVICE_URI + "/person/1" + QPM_ACCESS_TOKEN + tokenInfo.getAccess_token(), HttpMethod.PUT, request, Person.class);
 		
 		System.out.println(response.getBody());
 	}
