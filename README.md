@@ -1,4 +1,4 @@
-markdown# SpringMvcOAuth2
+## SpringMvcOAuth2
 
 Este es un proyecto base que implementa la seguridad y autenticación en una aplicación Web Java utilizando **Spring MVC** y el protocolo **OAuth2**. Permite gestionar el acceso seguro a los recursos (API REST) mediante el flujo de credenciales de usuario (*Password Grant Type*).
 
