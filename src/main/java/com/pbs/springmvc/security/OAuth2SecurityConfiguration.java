@@ -1,11 +1,13 @@
 package com.pbs.springmvc.security;
 
+import com.pbs.springmvc.evaluators.PermisosMetodesEvaluator;
 import com.pbs.springmvc.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
+import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
@@ -21,6 +24,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -28,6 +32,12 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
+
+	@Autowired
+	private PermisosMetodesEvaluator permisosMetodesEvaluator;
+
+	@Autowired
+	private javax.sql.DataSource dataSource;
 
 	@Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
@@ -73,7 +83,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public TokenStore tokenStore() {
-		return new InMemoryTokenStore();
+		return new org.springframework.security.oauth2.provider.token.store.JdbcTokenStore(dataSource);
 	}
 
 	@Bean
@@ -92,6 +102,13 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		TokenApprovalStore store = new TokenApprovalStore();
 		store.setTokenStore(tokenStore);
 		return store;
+	}
+
+	@Bean
+	public OAuth2WebSecurityExpressionHandler oauth2ExpressionHandler() {
+		OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
+		expressionHandler.setPermissionEvaluator(permisosMetodesEvaluator);
+		return expressionHandler;
 	}
 
 }
