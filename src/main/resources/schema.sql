@@ -12,15 +12,17 @@ CREATE TABLE person(
 
 CREATE TABLE roles(
   id NUMERIC IDENTITY PRIMARY KEY,
-  name VARCHAR NOT NULL
+  name VARCHAR NOT NULL,
+  CONSTRAINT UQ_NAME UNIQUE (name)
 );
 
 CREATE TABLE users(
   id NUMERIC IDENTITY PRIMARY KEY,
-  name VARCHAR NOT NULL,
+  username VARCHAR NOT NULL,
   rol_id NUMERIC NOT NULL,
   password VARCHAR NOT NULL,
-  FOREIGN KEY (rol_id) REFERENCES roles(id)
+  FOREIGN KEY (rol_id) REFERENCES roles(id),
+  CONSTRAINT UQ_USERNAME UNIQUE (username)
 );
 
 CREATE TABLE role_endpoints(
@@ -28,6 +30,5 @@ CREATE TABLE role_endpoints(
   role_id NUMERIC NOT NULL,
   endpoint VARCHAR NOT NULL,
   accion VARCHAR NOT NULL,
-  FOREIGN KEY (role_id) REFERENCES roles(id),
-  CONSTRAINT UQ_ROLE_ENDPOINT UNIQUE (role_id, endpoint)
+  FOREIGN KEY (role_id) REFERENCES roles(id)
 );

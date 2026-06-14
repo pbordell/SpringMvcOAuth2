@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "role_endpoints")
-public class RoleEndpoints {
+public class RoleEndpoint {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -19,7 +19,7 @@ public class RoleEndpoints {
   @Column(nullable = false)
   private String accion;
 
-  public RoleEndpoints() {}
+  public RoleEndpoint() {}
 
   public Long getId() {
     return id;

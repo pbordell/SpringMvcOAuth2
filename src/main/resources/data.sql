@@ -8,8 +8,8 @@ INSERT INTO person(id, name, age, salary) VALUES (6, 'bob', 45, 40000);
 INSERT INTO roles(id, name) VALUES (1, 'admin');
 INSERT INTO roles(id, name) VALUES (2, 'user');
 
-INSERT INTO users(id, name, rol_id, password) VALUES (1, 'admin', 1, 'admin');
-INSERT INTO users(id, name, rol_id, password) VALUES (2, 'user', 2, 'user');
+INSERT INTO users(id, username, rol_id, password) VALUES (1, 'admin', 1, 'admin');
+INSERT INTO users(id, username, rol_id, password) VALUES (2, 'user', 2, 'user');
 
 -- El usuario común (user) solo puede LEER
 INSERT INTO role_endpoints(id, role_id, endpoint, accion) VALUES (1, 2, '/person/', 'READ');

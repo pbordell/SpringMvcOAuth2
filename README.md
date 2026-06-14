@@ -46,11 +46,13 @@ Para autenticarte y obtener un token válido, debes realizar una petición HTTP 
 *   **URL**: `http://localhost:8080/SpringMvcOAuth2/oauth/token?grant_type=password`
 *   **Método HTTP**: `POST`
 *   **Cabeceras (Headers)**: Incluye las credenciales de cliente (`username` y `password`) requeridas por el servidor OAuth2 para autorizar la petición.
+*   **Basic Auth**: Autenticación básica con las credenciales "my-trusted-client" y "secret" para identificar qué aplicación (el cliente) está haciendo la petición.
 
 **Ejemplo de respuesta exitosa:**
 ```json
 {
   "access_token": "723698aa-6a78-4f84-9910-7b8c3fc92f76",
+  "refresh_token": "e38944b8-1c51-4fc3-809b-4472fa4d1714",
   "token_type": "bearer",
   "expires_in": 43199,
   "scope": "read write"

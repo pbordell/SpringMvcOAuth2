@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 3. Retornamos el objeto User nativo de Spring Security con los datos reales de tu BD
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                user.getPassword(),
+                "{noop}" + user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(rolFormateado))
         );
     }
