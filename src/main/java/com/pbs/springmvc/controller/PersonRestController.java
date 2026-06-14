@@ -31,7 +31,7 @@ public class PersonRestController {
 	// -------------------Retrieve All Persons--------------------------------------------------------
 
 	@GetMapping(value = "/person/")
-	@PreAuthorize("hasPermission(null)")
+	@PreAuthorize("hasPermission('/person/', 'READ')")
 	public ResponseEntity<List<Person>> listAllPersons() {
 		List<Person> persons = personService.findAllPersons();
 		if (persons.isEmpty()) {
@@ -44,7 +44,7 @@ public class PersonRestController {
 	// -------------------Retrieve Single Person--------------------------------------------------------
 
 	@GetMapping(value = "/person/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	@PreAuthorize("hasPermission(null)")
+	@PreAuthorize("hasPermission('/person/', 'WRITE')")
 	public ResponseEntity<Person> getPerson(@PathVariable("id") long id) {
 		Person person = personService.findById(id);
 		if (person == null) {

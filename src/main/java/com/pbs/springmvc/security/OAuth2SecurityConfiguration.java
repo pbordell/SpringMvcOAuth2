@@ -1,5 +1,6 @@
 package com.pbs.springmvc.security;
 
+import com.pbs.springmvc.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,8 @@ import org.springframework.security.oauth2.provider.approval.TokenStoreUserAppro
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.transaction.PlatformTransactionManager;
+
 
 @Configuration
 @EnableWebSecurity
@@ -22,13 +25,13 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private ClientDetailsService clientDetailsService;
-	
+
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
+
 	@Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-        .withUser("bill").password("{noop}abc123").roles("ADMIN")
-        .and()
-        .withUser("bob").password("{noop}abc123").roles("USER");
+		auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -39,10 +42,12 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/oauth/token")
 			.permitAll()
 			.and()
-			.requiresChannel()
-			.anyRequest()
-			.requiresSecure()
-			.and()
+				// se comentan para permitir HTTP estándar, ya que sino habría que configurar un conector SSL
+				// en el archivo server.xml de tu instalación de Tomcat mediante un certificado autofirmado (Keystore).
+			//.requiresChannel()
+			//.anyRequest()
+			//.requiresSecure()
+			//.and()
 			.csrf().disable();
 	}
 
@@ -52,6 +57,19 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		return new PlatformTransactionManager() {
+			@Override
+			public org.springframework.transaction.TransactionStatus getTransaction(org.springframework.transaction.TransactionDefinition definition) throws org.springframework.transaction.TransactionException {
+				return new org.springframework.transaction.support.SimpleTransactionStatus();
+			}
+			@Override
+			public void commit(org.springframework.transaction.TransactionStatus status) throws org.springframework.transaction.TransactionException {}
+			@Override
+			public void rollback(org.springframework.transaction.TransactionStatus status) throws org.springframework.transaction.TransactionException {}
+		};
+	}
 
 	@Bean
 	public TokenStore tokenStore() {
